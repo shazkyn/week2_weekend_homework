@@ -31,8 +31,5 @@ class GuestTest < Minitest::Test
     @guest1.pay_entry_fee(10.00)
     assert_equal(40.00, @guest1.wallet)
   end
-  #
-  # def test_guest_chooses_song
-  #   @guest1.choose_song
-  # end
+
 end

@@ -1,6 +1,6 @@
 class Room
 
-  attr_reader :name, :songs, :guests, :drink_price, :entry_fee
+  attr_reader :name, :songs, :guests, :drink_price, :entry_fee, :till
   attr_writer :songs, :guests
 
   def initialize(name, songs, capacity)
@@ -10,6 +10,7 @@ class Room
     @drink_price = 3.50
     @entry_fee = 10.00
     @capacity = capacity
+    @till = 0
   end
 
   def add_song(song)
@@ -18,8 +19,12 @@ class Room
 
   def admit_guest(guest)
     if @guests.length < @capacity
-    @guests.push(guest)
+      if guest.wallet >= @entry_fee
+        @guests.push(guest)
+        take_entry_fee(guest)
+      end
     end
+
   end
 
   def eject_guest(guest)
@@ -30,5 +35,9 @@ class Room
     return (song.name)
   end
 
+  def take_entry_fee(guest)
+    @till += @entry_fee
+    guest.pay_entry_fee(@entry_fee)
+  end
 
 end

@@ -60,14 +60,28 @@ class RoomTest < Minitest::Test
      guest4 = Guest.new("Pebbles Flintstone", 100, "Paranoid")
      guest5 = Guest.new("Bambam Rubble", 90, "Crazy Train")
 
-     @room1.admit_guest(@guest)
-     @room1.admit_guest(@guest)
-     @room1.admit_guest(@guest)
-     @room1.admit_guest(@guest)
-     @room1.admit_guest(@guest)
+     @room1.admit_guest(guest1)
+     @room1.admit_guest(guest2)
+     @room1.admit_guest(guest3)
+     @room1.admit_guest(guest4)
+     @room1.admit_guest(guest5)
      @room1.admit_guest(@guest)
      assert_equal(5, @room1.guests.length)
    end
 
-   def
+   def test_take_entry_fee()
+     @room1.admit_guest(@guest)
+     assert_equal(1, @room1.guests.length)
+     assert_equal(10.00, @room1.till)
+     assert_equal(40.00, @guest.wallet)
+   end
+
+   def test_refuse_poor_guest()
+     guest = Guest.new("Bambam Rubble", 5.00, "Crazy Train")
+
+     @room1.admit_guest(guest)
+     assert_equal(0, @room1.guests.length)
+     assert_equal(0.00, @room1.till)
+     assert_equal(5.00, guest.wallet)
+   end
 end
